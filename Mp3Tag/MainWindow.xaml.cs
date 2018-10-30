@@ -15,6 +15,9 @@ namespace Mp3Tag
     public string Thumbnail { get; set; }
   }
 
+  // Regex V1
+  // [0-9]{4}-[0-9]{2}\\CD [0-9]\\[0-9]{2} - [a-zA-Z0-9-(.)]+ - [a-zA-Z0-9 (.)]+
+
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
