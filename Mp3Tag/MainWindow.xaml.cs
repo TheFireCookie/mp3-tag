@@ -21,7 +21,7 @@ namespace Mp3Tag
     public List<Song> GetAllSongs()
     {
       var files = Directory.GetFiles(@"D:\Matthias\Musique\Compilations", "*.mp3", SearchOption.AllDirectories);
-      var toto = new Regex(@"(?<date>\[0-9\]{4}-\[0-9\]{2})\(?<cd>CD \[0-9\])\(?<number>\[0-9\]{2}) - (?<artist>\[a-zA-Z0-9-(.)\]+) - (?<title>\[a-zA-Z0-9 (.)'\]+)");
+      var toto = new Regex(@"(?<date>[0-9]{4}-[0-9]{2})\\(?<cd>CD [0-9])\\(?<number>[0-9]{2}) - (?<artist>[a-zA-Z0-9-(.)]+) - (?<title>[a-zA-Z0-9 (.)']+)\.mp3");
       foreach(var file in files)
       {
         var regexResponses = toto.Match(file);
