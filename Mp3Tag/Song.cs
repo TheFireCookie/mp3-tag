@@ -14,5 +14,6 @@ namespace Mp3Tag
     public string Title { get; set; }
     public string Path { get; set; }
     public string Thumbnail { get; set; }
+    public bool IsInError { get; set; }
   }
 }
