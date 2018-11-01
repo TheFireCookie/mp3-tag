@@ -10,6 +10,8 @@ namespace Mp3Tag.ViewModel
 {
   public class MainViewModel : ViewModelBase
   {
+    private string _workingDirectoryPath;
+
     public MainViewModel()
     {
       TOtoCommand = new RelayCommand(OpenFileDialog);
@@ -22,7 +24,13 @@ namespace Mp3Tag.ViewModel
         WorkingDirectoryPath = File.ReadAllText(openFileDialog.FileName);
     }
 
-    public string WorkingDirectoryPath { get; set; }
+    public string WorkingDirectoryPath
+    {
+      get { return _workingDirectoryPath; }
+      set { _workingDirectoryPath = value;
+        RaisePropertyChanged();
+      }
+    }
     public ICommand TOtoCommand { get; set; }
 
     public List<Song> GetAllSongs()
