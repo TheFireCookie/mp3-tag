@@ -1,25 +1,19 @@
-﻿using System.Collections.Generic;
+using GalaSoft.MvvmLight;
+using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Windows;
 
-namespace Mp3Tag
+namespace Mp3Tag.ViewModel
 {
-  /// <summary>
-  /// Interaction logic for MainWindow.xaml
-  /// </summary>
-  public partial class MainWindow : Window
+  public class MainViewModel : ViewModelBase
   {
-    public MainWindow()
-    {
-      InitializeComponent();
-      var songs = GetAllSongs();
-    }
+    public string Test { get; set; } = "1 2 3 4";
 
     public List<Song> GetAllSongs()
     {
       var songs = new List<Song>();
-      var trackFiles = Directory.GetFiles(@"C:\Users\mme\Desktop\dev-dir", "*.mp3", SearchOption.AllDirectories);
+      //var trackFiles = Directory.GetFiles(@"C:\Users\mme\Desktop\dev-dir", "*.mp3", SearchOption.AllDirectories);
+      var trackFiles = Directory.GetFiles(@"D:\Matthias\Musique\Compilations", "*.mp3", SearchOption.AllDirectories);
       var regex = new Regex(@"(?<date>[0-9]{4}-[0-9]{2})\\(?<cd>CD [0-9])\\(?<number>[0-9]{2}) - (?<artist>[a-zA-Z0-9-(.) ]+) - (?<title>[a-zA-Z0-9 (.)']+)\.mp3");
       foreach (var file in trackFiles)
       {
