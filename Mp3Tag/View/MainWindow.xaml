@@ -26,6 +26,6 @@
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="0" Text="Path to music content" VerticalAlignment="Center"/>
         <TextBox Margin="5,0" Grid.Column="1" IsReadOnly="True" Text="{Binding WorkingDirectoryPath}"/>
-        <Button Grid.Column="2" Content="Open working directory"/>
+        <Button Grid.Column="2" Command="{Binding TOtoCommand}" Content="Open working directory"/>
     </Grid>
 </Window>

@@ -1,13 +1,29 @@
 using GalaSoft.MvvmLight;
+using GalaSoft.MvvmLight.Command;
+using Microsoft.Win32;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.RegularExpressions;
+using System.Windows.Input;
 
 namespace Mp3Tag.ViewModel
 {
   public class MainViewModel : ViewModelBase
   {
-    public string Test { get; set; } = "1 2 3 4";
+    public MainViewModel()
+    {
+      TOtoCommand = new RelayCommand(OpenFileDialog);
+    }
+
+    private void OpenFileDialog()
+    {
+      OpenFileDialog openFileDialog = new OpenFileDialog();
+      if (openFileDialog.ShowDialog() == true)
+        WorkingDirectoryPath = File.ReadAllText(openFileDialog.FileName);
+    }
+
+    public string WorkingDirectoryPath { get; set; }
+    public ICommand TOtoCommand { get; set; }
 
     public List<Song> GetAllSongs()
     {
