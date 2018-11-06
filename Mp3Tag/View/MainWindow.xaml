@@ -13,11 +13,13 @@
         TextOptions.TextFormattingMode="Ideal" 
         TextOptions.TextRenderingMode="Auto"        
         Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}">
+        FontFamily="{DynamicResource MaterialDesignFont}"
+        WindowState="Maximized">
     <Grid Margin="5,5,5,0">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
@@ -25,7 +27,21 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Grid.Column="0" Text="Path to music content" VerticalAlignment="Center"/>
-        <TextBox Margin="5,0" Grid.Column="1" IsReadOnly="True" Text="{Binding WorkingDirectoryPath}"/>
-        <Button Grid.Column="2" Command="{Binding TOtoCommand}" Content="Open working directory"/>
+        <TextBox Margin="5,0" Grid.Column="1" Text="{Binding WorkingDirectoryPath}"/>
+        <Button Margin="5,0" Grid.Column="2" Command="{Binding OpenWorkingDirectoryCommand}" Content="Open working directory"/>
+        <Button Margin="5,0" Grid.Column="3" Command="{Binding LoadWorkingDirectoryCommand}" Content="Load"/>
+        <DataGrid Margin="5" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Songs}" AutoGenerateColumns="False">
+            <!-- Add other columns here -->
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Path" Binding="{Binding Path}" />
+                <DataGridTemplateColumn Header="Thumbnail" Width="SizeToCells" IsReadOnly="True">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <Image Source="{Binding TagThumbnail}" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </Grid>
 </Window>
