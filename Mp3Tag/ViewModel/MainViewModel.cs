@@ -72,7 +72,7 @@ namespace Mp3Tag.ViewModel
         AudioFile audioFile = (AudioFile)TagLib.File.Create(file);
         audioFile.Tag.Pictures = new IPicture[] { new Picture(@"C:\Users\mme\Desktop\téléchargement.png"), };
 
-        var img = new Bitmap(@"C:\Users\mme\Desktop\téléchargement.png");
+        var img = new Bitmap(@"C:\Users\mme\Desktop\dev-dir\thumbnail.jpg");
 
 
         var match = regex.Match(file);
@@ -90,7 +90,7 @@ namespace Mp3Tag.ViewModel
             TagArtist = audioFile.Tag.Performers.FirstOrDefault(),
             TagCd = audioFile.Tag.Disc.ToString(),
             TagNumber = audioFile.Tag.Track.ToString(),
-            TagThumbnail = img,
+            TagThumbnail = @"C:\Users\mme\Desktop\dev-dir\thumbnail.jpg",
             TagTitle = audioFile.Tag.Title
           });
         }

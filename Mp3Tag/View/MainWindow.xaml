@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
-        Title="MainWindow" Height="800" Width="1400"
+        Title="MP3 Tag" Height="800" Width="1400"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
@@ -31,13 +31,30 @@
         <Button Margin="5,0" Grid.Column="2" Command="{Binding OpenWorkingDirectoryCommand}" Content="Open working directory"/>
         <Button Margin="5,0" Grid.Column="3" Command="{Binding LoadWorkingDirectoryCommand}" Content="Load"/>
         <DataGrid Margin="5" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Songs}" AutoGenerateColumns="False">
-            <!-- Add other columns here -->
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Path" Binding="{Binding Path}" />
-                <DataGridTemplateColumn Header="Thumbnail" Width="SizeToCells" IsReadOnly="True">
+                <DataGridCheckBoxColumn Header="Error" Binding="{Binding IsInError}" />
+                <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
+                <DataGridTextColumn Header="Cd" Binding="{Binding Cd}" />
+                <DataGridTextColumn Header="Number" Binding="{Binding Number}" />
+                <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" />
+                <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
+                <DataGridTextColumn Header="Path" Width="60" Binding="{Binding Path}">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+                            <Setter Property="ToolTip" Value="{Binding Path}" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                </DataGridTextColumn>
+
+                <DataGridTextColumn Header="Tag Album" Binding="{Binding TagAlbum}" />
+                <DataGridTextColumn Header="Tag Cd" Binding="{Binding TagCd}" />
+                <DataGridTextColumn Header="Tag Number" Binding="{Binding TagNumber}" />
+                <DataGridTextColumn Header="Tag Artist" Binding="{Binding TagArtist}" />
+                <DataGridTextColumn Header="Tag Title" Binding="{Binding TagTitle}" />
+                <DataGridTemplateColumn Header="Tag Thumbnail">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Source="{Binding TagThumbnail}" />
+                            <Image Width="40" Height="40" Source="{Binding TagThumbnail}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

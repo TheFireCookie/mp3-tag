@@ -18,7 +18,7 @@ namespace Mp3Tag
     public bool IsInError { get; set; }
     public string TagArtist { get;set; }
     public string TagAlbum { get; set; }
-    public Bitmap TagThumbnail { get; set; }
+    public string TagThumbnail { get; set; }
     public string TagTitle { get; set; }
     public string TagNumber { get; set; }
     public string TagCd { get; set; }
