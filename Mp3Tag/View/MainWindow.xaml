@@ -21,6 +21,7 @@
             <ColumnDefinition Width="*"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -30,7 +31,8 @@
         <TextBox Margin="5,0" Grid.Column="1" Text="{Binding WorkingDirectoryPath}"/>
         <Button Margin="5,0" Grid.Column="2" Command="{Binding OpenWorkingDirectoryCommand}" Content="Open working directory"/>
         <Button Margin="5,0" Grid.Column="3" Command="{Binding LoadWorkingDirectoryCommand}" Content="Load"/>
-        <DataGrid Margin="5" Grid.Row="1" Grid.ColumnSpan="4" ItemsSource="{Binding Songs}" AutoGenerateColumns="False">
+        <Button Margin="5,0" Grid.Column="4" Command="{Binding SetMp3TagCommand}" Content="Set MP3 Tags"/>
+        <DataGrid Margin="5" Grid.Row="1" Grid.ColumnSpan="10" ItemsSource="{Binding Songs}" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Error" Binding="{Binding IsInError}" />
                 <DataGridTextColumn Header="Date" Binding="{Binding Date}" />

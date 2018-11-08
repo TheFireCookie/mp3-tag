@@ -1,5 +1,6 @@
 using GalaSoft.MvvmLight;
 using GalaSoft.MvvmLight.Command;
+using System;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.IO;
@@ -7,7 +8,6 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 using System.Windows.Input;
-using TagLib;
 using TagLib.Mpeg;
 
 namespace Mp3Tag.ViewModel
@@ -21,6 +21,7 @@ namespace Mp3Tag.ViewModel
     {
       OpenWorkingDirectoryCommand = new RelayCommand(OpenWorkingDirectory);
       LoadWorkingDirectoryCommand = new RelayCommand(LoadWorkingDirectory, !string.IsNullOrEmpty(WorkingDirectoryPath));
+      SetMp3TagCommand = new RelayCommand(SetMp3Tag);
 
       WorkingDirectoryPath = @"C:\Users\mme\Desktop\dev-dir";
       LoadWorkingDirectory();
@@ -36,6 +37,22 @@ namespace Mp3Tag.ViewModel
     private void LoadWorkingDirectory()
     {
       Songs = GetAllSongs();
+    }
+
+    private void SetMp3Tag()
+    {
+      var songsToBeSetted = Songs.Where(s => !s.IsInError).ToList();
+      foreach (var song in songsToBeSetted)
+      {
+        AudioFile audioFile = (AudioFile)TagLib.File.Create(song.Path);
+        audioFile.Tag.Performers = new[] { song.Artist };
+        audioFile.Tag.Title = song.Title;
+        audioFile.Tag.Disc = Convert.ToUInt32(song.Cd.Substring(3, 1));
+        audioFile.Tag.Album = $"{song.Date} - {song.Cd}";
+        audioFile.Tag.Track = Convert.ToUInt32(song.Number);
+        audioFile.Save();
+      }
+      LoadWorkingDirectory();
     }
 
     public string WorkingDirectoryPath
@@ -60,6 +77,7 @@ namespace Mp3Tag.ViewModel
 
     public ICommand OpenWorkingDirectoryCommand { get; set; }
     public ICommand LoadWorkingDirectoryCommand { get; set; }
+    public ICommand SetMp3TagCommand { get; set; }
 
     public ObservableCollection<Song> GetAllSongs()
     {
@@ -70,10 +88,8 @@ namespace Mp3Tag.ViewModel
       foreach (var file in trackFiles)
       {
         AudioFile audioFile = (AudioFile)TagLib.File.Create(file);
-        audioFile.Tag.Pictures = new IPicture[] { new Picture(@"C:\Users\mme\Desktop\téléchargement.png"), };
 
         var img = new Bitmap(@"C:\Users\mme\Desktop\dev-dir\thumbnail.jpg");
-
 
         var match = regex.Match(file);
         if (match.Success)
