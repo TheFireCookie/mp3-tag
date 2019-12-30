@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -14,6 +14,8 @@ namespace mp3tag.ViewModels
   {
     private string _workingDirectoryPath;
     private BindableCollection<Song> _songs;
+    private readonly Regex Regex = new Regex(
+       @"(?<date>[0-9]{4}-[0-9]{2})\\(?<cd>CD [0-9])?\\?(?<number>[0-9]{2}) - (?<artist>[a-zA-Zàéèøêâäùüïôûîåöëó+ÉÈÁΛ★#0-9 \-(.)_&Ø;,\[\]’!$'º°]+) - (?<title>[a-zA-Zàéèøêâäùüïôûîåöëó+ÉÈÁΛ★#0-9 \-(.)_&Ø;,\[\]’!$'º°]+)\.mp3", RegexOptions.Compiled);
 
     public MainWindowViewModel()
     {
@@ -75,15 +77,13 @@ namespace mp3tag.ViewModels
     {
       var songs = new BindableCollection<Song>();
       var trackFiles = Directory.GetFiles(WorkingDirectoryPath, "*.mp3", SearchOption.AllDirectories);
-      var regex = new Regex(
-        @"(?<date>[0-9]{4}-[0-9]{2})\\(?<cd>CD [0-9])\\(?<number>[0-9]{2}) - (?<artist>[a-zA-Z0-9-(.) ]+) - (?<title>[a-zA-Z0-9 (.)']+)\.mp3");
 
       for (int i = 0; i < trackFiles.Length; i++)
       {
         Debug.WriteLine($"Processing {trackFiles[i]} ({i}/{trackFiles.Length - 1})");
         var audioFile = (AudioFile)TagLib.File.Create(trackFiles[i]);
 
-        var match = regex.Match(trackFiles[i]);
+        var match = Regex.Match(trackFiles[i]);
         if (match.Success)
         {
           songs.Add(new Song
