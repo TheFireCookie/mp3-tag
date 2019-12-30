@@ -1,11 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Text.RegularExpressions;
-using System.Windows;
-using TagLib;
-
-namespace Mp3Tag
+﻿namespace mp3tag
 {
   public class Song
   {

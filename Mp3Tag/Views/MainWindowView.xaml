@@ -1,38 +1,32 @@
-﻿<Window x:Class="Mp3Tag.View.MainWindow"
+﻿<Window x:Class="mp3tag.Views.MainWindowView"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        DataContext="{Binding Source={StaticResource Locator}, Path=Main}"
         Title="MP3 Tag" Height="800" Width="1400"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        TextElement.Foreground="{DynamicResource MaterialDesignBody}"
         TextElement.FontWeight="Regular"
         TextElement.FontSize="13"
-        TextOptions.TextFormattingMode="Ideal" 
-        TextOptions.TextRenderingMode="Auto"        
-        Background="{DynamicResource MaterialDesignPaper}"
-        FontFamily="{DynamicResource MaterialDesignFont}"
-        WindowState="Maximized">
+        TextOptions.TextFormattingMode="Ideal"
+        TextOptions.TextRenderingMode="Auto">
     <Grid Margin="5,5,5,0">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Text="Path to music content" VerticalAlignment="Center"/>
-        <TextBox Margin="5,0" Grid.Column="1" Text="{Binding WorkingDirectoryPath}"/>
-        <Button Margin="5,0" Grid.Column="2" Command="{Binding OpenWorkingDirectoryCommand}" Content="Open working directory"/>
-        <Button Margin="5,0" Grid.Column="3" Command="{Binding LoadWorkingDirectoryCommand}" Content="Load"/>
-        <Button Margin="5,0" Grid.Column="4" Command="{Binding SetMp3TagCommand}" Content="Set MP3 Tags"/>
-        <DataGrid Margin="5" Grid.Row="1" Grid.ColumnSpan="10" ItemsSource="{Binding Songs}" AutoGenerateColumns="False">
+        <TextBlock Grid.Column="0" Text="Path to music content" VerticalAlignment="Center" />
+        <TextBox x:Name="WorkingDirectoryPath" Margin="5,0" Grid.Column="1" />
+        <Button x:Name="OpenWorkingDirectory" Margin="5,0" Grid.Column="2" Content="Open working directory" />
+        <Button x:Name="LoadWorkingDirectory" Margin="5,0" Grid.Column="3" Content="Load" />
+        <Button x:Name="SetMp3Tag" Margin="5,0" Grid.Column="4" Content="Set MP3 Tags" />
+        <DataGrid x:Name="Songs" Margin="5" Grid.Row="1" Grid.ColumnSpan="10" AutoGenerateColumns="False">
             <DataGrid.Columns>
                 <DataGridCheckBoxColumn Header="Error" Binding="{Binding IsInError}" />
                 <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
@@ -53,13 +47,13 @@
                 <DataGridTextColumn Header="Tag Number" Binding="{Binding TagNumber}" />
                 <DataGridTextColumn Header="Tag Artist" Binding="{Binding TagArtist}" />
                 <DataGridTextColumn Header="Tag Title" Binding="{Binding TagTitle}" />
-                <DataGridTemplateColumn Header="Tag Thumbnail">
+                <!--<DataGridTemplateColumn Header="Tag Thumbnail">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
                             <Image Width="40" Height="40" Source="{Binding TagThumbnail}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
+                </DataGridTemplateColumn>-->
             </DataGrid.Columns>
         </DataGrid>
     </Grid>
