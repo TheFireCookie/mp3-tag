@@ -50,13 +50,13 @@
                 <DataGridTextColumn Header="Tag Number" Binding="{Binding TagNumber}" />
                 <DataGridTextColumn Header="Tag Artist" Binding="{Binding TagArtist}" />
                 <DataGridTextColumn Header="Tag Title" Binding="{Binding TagTitle}" />
-                <!--<DataGridTemplateColumn Header="Tag Thumbnail">
+                <DataGridTemplateColumn Header="Tag Thumbnail">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Width="40" Height="40" Source="{Binding TagThumbnail}" />
+                            <Image Width="20" Height="20" Source="{Binding TagThumbnail}" />
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>-->
+                </DataGridTemplateColumn>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

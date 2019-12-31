@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text.RegularExpressions;
@@ -15,7 +16,7 @@ namespace mp3tag.ViewModels
     private string _workingDirectoryPath;
     private BindableCollection<Song> _songs;
     private readonly Regex Regex = new Regex(
-       @"(?<date>[0-9]{4}-[0-9]{2})\\(?<cd>CD [0-9])?\\?(?<number>[0-9]{2}) - (?<artist>[a-zA-Zàéèøêâäùüïôûîåöëó+ÉÈÁΛ★#0-9 \-(.)_&Ø;,\[\]’!$'º°]+) - (?<title>[a-zA-Zàéèøêâäùüïôûîåöëó+ÉÈÁΛ★#0-9 \-(.)_&Ø;,\[\]’!$'º°]+)\.mp3", RegexOptions.Compiled);
+       @"(?<date>[0-9]{4}-[0-9]{2})\\(?<cd>CD [0-9])?\\?(?<number>[0-9]{2}) - (?<artist>[a-zA-Zàééèèøêâäùüïôûûîåööëó+ÉÉÈÏÖÇçÁÀÜłΛ★^♀#0-9 \-(.)_&Ø;,\[\]’`!$'º°]+) - (?<title>[a-zA-Zàééèèøêâäùüïôûûîåööëó+ÉÉÈÏÖÇçÁÀÜłΛ★^♀#0-9 \-(.)_&Ø;,\[\]’`  !$'º°]+)\.mp3", RegexOptions.Compiled);
 
     public MainWindowViewModel()
     {
@@ -86,6 +87,38 @@ namespace mp3tag.ViewModels
         var match = Regex.Match(trackFiles[i]);
         if (match.Success)
         {
+          Image image = null;
+          var picture = audioFile.Tag.Pictures.FirstOrDefault();
+        
+
+          var song = new Song
+          {
+            Artist = match.Groups["artist"].Value,
+            Date = match.Groups["date"].Value,
+            Cd = match.Groups["cd"].Value,
+            Number = match.Groups["number"].Value,
+            Path = trackFiles[i],
+            Title = match.Groups["title"].Value,
+            TagAlbum = audioFile.Tag.Album,
+            TagArtist = audioFile.Tag.Performers.FirstOrDefault(),
+            TagCd = audioFile.Tag.Disc.ToString(),
+            TagNumber = audioFile.Tag.Track.ToString(),
+            TagTitle = audioFile.Tag.Title
+          };
+
+          if (picture != null)
+          {
+            try
+            {
+              using var ms = new MemoryStream(audioFile.Tag.Pictures[0].Data.Data);
+              song.TagThumbnail = Image.FromStream(ms);
+            }
+            catch (Exception)
+            { }
+          }
+
+
+
           songs.Add(new Song
           {
             Artist = match.Groups["artist"].Value,
@@ -98,7 +131,7 @@ namespace mp3tag.ViewModels
             TagArtist = audioFile.Tag.Performers.FirstOrDefault(),
             TagCd = audioFile.Tag.Disc.ToString(),
             TagNumber = audioFile.Tag.Track.ToString(),
-            TagThumbnail = @"C:\Users\mme\Desktop\dev-dir\thumbnail.jpg",
+            TagThumbnail = image,
             TagTitle = audioFile.Tag.Title
           });
         }
