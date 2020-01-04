@@ -9,55 +9,56 @@
         TextElement.FontSize="13"
         TextOptions.TextFormattingMode="Ideal"
         TextOptions.TextRenderingMode="Auto">
-    <Grid Margin="5,5,5,0">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="*" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-            <ColumnDefinition Width="Auto" />
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-        <TextBlock Grid.Column="0" Text="Path to music content" VerticalAlignment="Center" />
-        <TextBox x:Name="WorkingDirectoryPath" Margin="5,0" Grid.Column="1" />
-        <Button x:Name="OpenWorkingDirectory" Margin="5,0" Grid.Column="2" Content="Open working directory" />
-        <Button x:Name="LoadWorkingDirectory" Margin="5,0" Grid.Column="3" Content="Load" />
-        <Button x:Name="SetMp3Tag" Margin="5,0" Grid.Column="4" Content="Set MP3 Tags" />
-        <DataGrid x:Name="Songs" Margin="5" Grid.Row="1" Grid.ColumnSpan="5" AutoGenerateColumns="False"
-                  ScrollViewer.CanContentScroll="True" VirtualizingPanel.VirtualizationMode="Recycling"
-                  VirtualizingPanel.IsVirtualizing="True" EnableRowVirtualization="True"
-                  EnableColumnVirtualization="True">
-            <DataGrid.Columns>
-                <DataGridCheckBoxColumn Header="Error" Binding="{Binding IsInError}" />
-                <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
-                <DataGridTextColumn Header="Cd" Binding="{Binding Cd}" />
-                <DataGridTextColumn Header="Number" Binding="{Binding Number}" />
-                <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" />
-                <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
-                <DataGridTextColumn Header="Path" Width="60" Binding="{Binding Path}">
-                    <DataGridTextColumn.CellStyle>
-                        <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
-                            <Setter Property="ToolTip" Value="{Binding Path}" />
-                        </Style>
-                    </DataGridTextColumn.CellStyle>
-                </DataGridTextColumn>
-
-                <DataGridTextColumn Header="Tag Album" Binding="{Binding TagAlbum}" />
-                <DataGridTextColumn Header="Tag Cd" Binding="{Binding TagCd}" />
-                <DataGridTextColumn Header="Tag Number" Binding="{Binding TagNumber}" />
-                <DataGridTextColumn Header="Tag Artist" Binding="{Binding TagArtist}" />
-                <DataGridTextColumn Header="Tag Title" Binding="{Binding TagTitle}" />
-                <DataGridTemplateColumn Header="Tag Thumbnail">
-                    <DataGridTemplateColumn.CellTemplate>
-                        <DataTemplate>
-                            <Image Width="20" Height="20" Source="{Binding TagThumbnail}" />
-                        </DataTemplate>
-                    </DataGridTemplateColumn.CellTemplate>
-                </DataGridTemplateColumn>
-            </DataGrid.Columns>
-        </DataGrid>
-    </Grid>
+  <Grid Margin="5,5,5,0">
+    <Grid.ColumnDefinitions>
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="*" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+      <ColumnDefinition Width="Auto" />
+    </Grid.ColumnDefinitions>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto" />
+      <RowDefinition Height="*" />
+    </Grid.RowDefinitions>
+    <TextBlock Grid.Column="0" Text="Path to music content" VerticalAlignment="Center" />
+    <TextBox x:Name="WorkingDirectoryPath" Margin="5,0" Grid.Column="1" />
+    <Button x:Name="OpenWorkingDirectory" Margin="5,0" Grid.Column="2" Content="Open working directory" />
+    <Button x:Name="LoadWorkingDirectory" Margin="5,0" Grid.Column="3" Content="Load" />
+    <Button x:Name="SetMp3Tag" Margin="5,0" Grid.Column="4" Content="Set MP3 Tags" />
+    <Button x:Name="SaveMp3FileToClipboard" Margin="5,0" Grid.Column="5" Content="Copy list to clipboard" />
+    <DataGrid x:Name="Songs" Margin="5" Grid.Row="1" Grid.ColumnSpan="6" AutoGenerateColumns="False"
+              ScrollViewer.CanContentScroll="True" VirtualizingPanel.VirtualizationMode="Recycling"
+              VirtualizingPanel.IsVirtualizing="True" EnableRowVirtualization="True"
+              EnableColumnVirtualization="True">
+      <DataGrid.Columns>
+        <DataGridCheckBoxColumn Header="Error" Binding="{Binding IsInError}" />
+        <DataGridTextColumn Header="Date" Binding="{Binding Date}" />
+        <DataGridTextColumn Header="Cd" Binding="{Binding Cd}" />
+        <DataGridTextColumn Header="Number" Binding="{Binding Number}" />
+        <DataGridTextColumn Header="Artist" Binding="{Binding Artist}" />
+        <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
+        <DataGridTextColumn Header="Path" Width="60" Binding="{Binding Path}">
+          <DataGridTextColumn.CellStyle>
+            <Style TargetType="DataGridCell" BasedOn="{StaticResource {x:Type DataGridCell}}">
+              <Setter Property="ToolTip" Value="{Binding Path}" />
+            </Style>
+          </DataGridTextColumn.CellStyle>
+        </DataGridTextColumn>
+        <DataGridTemplateColumn Header="Tag Thumbnail">
+          <DataGridTemplateColumn.CellTemplate>
+            <DataTemplate>
+              <Image Width="64" Height="64" Source="{Binding TagThumbnail}" />
+            </DataTemplate>
+          </DataGridTemplateColumn.CellTemplate>
+        </DataGridTemplateColumn>
+        <DataGridTextColumn Header="Tag Album" Binding="{Binding TagAlbum}" />
+        <DataGridTextColumn Header="Tag Cd" Binding="{Binding TagCd}" />
+        <DataGridTextColumn Header="Tag Number" Binding="{Binding TagNumber}" />
+        <DataGridTextColumn Header="Tag Artist" Binding="{Binding TagArtist}" />
+        <DataGridTextColumn Header="Tag Title" Binding="{Binding TagTitle}" />
+      </DataGrid.Columns>
+    </DataGrid>
+  </Grid>
 </Window>

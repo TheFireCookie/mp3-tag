@@ -3,9 +3,12 @@ using System.Diagnostics;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Forms;
+using System.Windows.Media.Imaging;
 using Caliburn.Micro;
 using TagLib.Mpeg;
 
@@ -55,23 +58,47 @@ namespace mp3tag.ViewModels
 
     public bool CanSetMp3Tag()
     {
-      return false;
+      return true;
     }
 
     public void SetMp3Tag()
     {
-      foreach (var song in Songs.Where(s => !s.IsInError).ToList())
+      var songsToSet = Songs.Where(s => !s.IsInError).ToList();
+      for (int i = 0; i < songsToSet.Count; i++)
       {
-        var audioFile = (AudioFile)TagLib.File.Create(song.Path);
-        audioFile.Tag.Performers = new[] { song.Artist };
-        audioFile.Tag.Title = song.Title;
-        audioFile.Tag.Disc = Convert.ToUInt32(song.Cd.Substring(3, 1));
-        audioFile.Tag.Album = $"{song.Date} - {song.Cd}";
-        audioFile.Tag.Track = Convert.ToUInt32(song.Number);
+        Debug.WriteLine($"Writing {songsToSet[i].Path} ({i}/{songsToSet.Count - 1})");
+        var audioFile = (AudioFile)TagLib.File.Create(songsToSet[i].Path);
+        audioFile.Tag.Performers = new[] { songsToSet[i].Artist };
+        audioFile.Tag.Title = songsToSet[i].Title;
+        
+
+        if (string.IsNullOrWhiteSpace(songsToSet[i].Cd))
+        {
+          audioFile.Tag.Album = $"{songsToSet[i].Date}";
+          audioFile.Tag.Disc = 1;
+        }
+        else
+        {
+          audioFile.Tag.Album = $"{songsToSet[i].Date} - {songsToSet[i].Cd}";
+          audioFile.Tag.Disc = Convert.ToUInt32(songsToSet[i].Cd.Substring(3, 1));
+        }
+
+        audioFile.Tag.Track = Convert.ToUInt32(songsToSet[i].Number);
         audioFile.Save();
+        Debug.WriteLine($"Written {songsToSet[i]} ({i}/{songsToSet.Count - 1})");
       }
 
       LoadWorkingDirectory();
+    }
+
+    public void SaveMp3FileToClipboard()
+    {
+      var stringBuilder = new StringBuilder();
+      foreach(var song in Songs)
+      {
+        stringBuilder.AppendLine(song.Path);
+      }
+      System.Windows.Clipboard.SetText(stringBuilder.ToString());
     }
 
     private BindableCollection<Song> GetAllSongs()
@@ -81,15 +108,13 @@ namespace mp3tag.ViewModels
 
       for (int i = 0; i < trackFiles.Length; i++)
       {
-        Debug.WriteLine($"Processing {trackFiles[i]} ({i}/{trackFiles.Length - 1})");
+        Debug.WriteLine($"Reading {trackFiles[i]} ({i}/{trackFiles.Length - 1})");
         var audioFile = (AudioFile)TagLib.File.Create(trackFiles[i]);
 
         var match = Regex.Match(trackFiles[i]);
         if (match.Success)
         {
-          Image image = null;
           var picture = audioFile.Tag.Pictures.FirstOrDefault();
-        
 
           var song = new Song
           {
@@ -110,30 +135,21 @@ namespace mp3tag.ViewModels
           {
             try
             {
+              var base64 = Convert.ToBase64String(audioFile.Tag.Pictures[0].Data.Data);
               using var ms = new MemoryStream(audioFile.Tag.Pictures[0].Data.Data);
-              song.TagThumbnail = Image.FromStream(ms);
+              var bitmapImage = new BitmapImage();
+              bitmapImage.BeginInit();
+              bitmapImage.StreamSource = ms;
+              bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+              bitmapImage.EndInit();
+              bitmapImage.Freeze();
+              song.TagThumbnail = bitmapImage;
             }
             catch (Exception)
             { }
           }
 
-
-
-          songs.Add(new Song
-          {
-            Artist = match.Groups["artist"].Value,
-            Date = match.Groups["date"].Value,
-            Cd = match.Groups["cd"].Value,
-            Number = match.Groups["number"].Value,
-            Path = trackFiles[i],
-            Title = match.Groups["title"].Value,
-            TagAlbum = audioFile.Tag.Album,
-            TagArtist = audioFile.Tag.Performers.FirstOrDefault(),
-            TagCd = audioFile.Tag.Disc.ToString(),
-            TagNumber = audioFile.Tag.Track.ToString(),
-            TagThumbnail = image,
-            TagTitle = audioFile.Tag.Title
-          });
+          songs.Add(song);
         }
         else
         {
@@ -143,45 +159,8 @@ namespace mp3tag.ViewModels
             IsInError = true
           });
         }
-        Debug.WriteLine($"Processed {trackFiles[i]} ({i}/{trackFiles.Length - 1})");
+        Debug.WriteLine($"Read {trackFiles[i]} ({i}/{trackFiles.Length - 1})");
       }
-
-      //Parallel.ForEach(trackFiles, (file) =>
-      //{
-      //  Debug.WriteLine($"Processing {file}");
-      //  var audioFile = (AudioFile) TagLib.File.Create(file);
-
-      //  //var img = new Bitmap(@"C:\Users\mme\Desktop\dev-dir\thumbnail.jpg");
-
-      //  var match = regex.Match(file);
-      //  if (match.Success)
-      //  {
-      //    songs.Add(new Song
-      //    {
-      //      Artist = match.Groups["artist"].Value,
-      //      Date = match.Groups["date"].Value,
-      //      Cd = match.Groups["cd"].Value,
-      //      Number = match.Groups["number"].Value,
-      //      Path = file,
-      //      Title = match.Groups["title"].Value,
-      //      TagAlbum = audioFile.Tag.Album,
-      //      TagArtist = audioFile.Tag.Performers.FirstOrDefault(),
-      //      TagCd = audioFile.Tag.Disc.ToString(),
-      //      TagNumber = audioFile.Tag.Track.ToString(),
-      //      TagThumbnail = @"C:\Users\mme\Desktop\dev-dir\thumbnail.jpg",
-      //      TagTitle = audioFile.Tag.Title
-      //    });
-      //  }
-      //  else
-      //  {
-      //    songs.Add(new Song
-      //    {
-      //      Path = file,
-      //      IsInError = true
-      //    });
-      //  }
-      //  Debug.WriteLine($"Processed {file}");
-      //});
 
       return songs;
     }

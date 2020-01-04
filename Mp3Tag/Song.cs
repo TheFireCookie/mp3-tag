@@ -1,4 +1,4 @@
-﻿using System.Drawing;
+﻿using System.Windows.Media.Imaging;
 
 namespace mp3tag
 {
@@ -13,7 +13,7 @@ namespace mp3tag
     public bool IsInError { get; set; }
     public string TagArtist { get;set; }
     public string TagAlbum { get; set; }
-    public Image TagThumbnail { get; set; }
+    public BitmapImage TagThumbnail { get; set; }
     public string TagTitle { get; set; }
     public string TagNumber { get; set; }
     public string TagCd { get; set; }
