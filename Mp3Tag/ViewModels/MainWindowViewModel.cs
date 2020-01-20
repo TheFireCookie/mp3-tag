@@ -16,7 +16,7 @@ namespace mp3tag.ViewModels
     private string _workingDirectoryPath;
     private BindableCollection<Song> _songs;
     private readonly Regex Regex = new Regex(
-       @"(?<date>[0-9]{4}-[0-9]{2})\\(?<cd>CD [0-9])?\\?(?<number>[0-9]{2}) - (?<artist>[a-zA-Zàééèèøêâäùüïôûûîåööëó+ÉÉÈÏÖÇçÁÀÜłΛ★^♀#0-9 \-(.)_&Ø;,\[\]’`!$'º°]+) - (?<title>[a-zA-Zàééèèøêâäùüïôûûîåööëó+ÉÉÈÏÖÇçÁÀÜłΛ★^♀#0-9 \-(.)_&Ø;,\[\]’`  !$'º°]+)\.mp3", RegexOptions.Compiled);
+       @"(?<date>[0-9]{4}-[0-9]{2})\\(?<cd>CD [0-9])?\\?(?<number>[0-9]{2}) - (?<artist>[a-zA-Zàééèèøêâäáùüïôûûîåööëó+ÉÉÈÏÖñÇçÁÀÜłΛ★^♀#0-9 \-(.)_&Ø;,\[\]’`!$'º°]+) - (?<title>[a-zA-Zàééèèøêâäùüïôûûîåööëó+ÉÉÈÏÖÇçÁÀÜłΛ★^♀#0-9 \-(.)_&Ø;,\[\]’`  !$'º°]+)\.mp3", RegexOptions.Compiled);
 
     public MainWindowViewModel()
     {
