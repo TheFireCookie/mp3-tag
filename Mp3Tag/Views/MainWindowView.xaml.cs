@@ -2,11 +2,11 @@
 
 namespace mp3tag.Views
 {
-  public partial class MainWindowView : Window
-  {
-    public MainWindowView()
+    public partial class MainWindowView : Window
     {
-      InitializeComponent();
+        public MainWindowView()
+        {
+            InitializeComponent();
+        }
     }
-  }
 }
